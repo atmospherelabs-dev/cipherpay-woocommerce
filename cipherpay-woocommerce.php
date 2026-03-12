@@ -23,7 +23,13 @@ add_action('plugins_loaded', 'cipherpay_wc_init');
 function cipherpay_wc_init() {
     if (!class_exists('WC_Payment_Gateway')) {
         add_action('admin_notices', function () {
-            echo '<div class="error"><p><strong>CipherPay</strong> requires WooCommerce to be installed and active.</p></div>';
+            echo '<div class="error"><p>' . esc_html(
+                sprintf(
+                    /* translators: %s: plugin name */
+                    __('%s requires WooCommerce to be installed and active.', 'cipherpay-woocommerce'),
+                    'CipherPay'
+                )
+            ) . '</p></div>';
         });
         return;
     }
@@ -67,8 +73,8 @@ function cipherpay_handle_webhook(WP_REST_Request $request) {
         return new WP_REST_Response(['error' => 'Invalid signature'], 401);
     }
 
-    $age = abs(time() - intval($timestamp));
-    if ($age > 300) {
+    $ts = strtotime($timestamp);
+    if ($ts === false || abs(time() - $ts) > 300) {
         return new WP_REST_Response(['error' => 'Timestamp too old'], 401);
     }
 
@@ -107,7 +113,9 @@ function cipherpay_handle_webhook(WP_REST_Request $request) {
             break;
 
         case 'payment.expired':
-            $order->update_status('cancelled', 'CipherPay: Payment expired.');
+            if (!$order->is_paid()) {
+                $order->update_status('cancelled', 'CipherPay: Payment expired.');
+            }
             break;
     }
 

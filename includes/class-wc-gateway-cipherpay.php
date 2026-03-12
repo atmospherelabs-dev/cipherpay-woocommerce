@@ -9,16 +9,16 @@ class WC_Gateway_CipherPay extends WC_Payment_Gateway {
 
     public function __construct() {
         $this->id                 = 'cipherpay';
-        $this->method_title       = 'CipherPay (Zcash)';
-        $this->method_description = 'Accept shielded Zcash (ZEC) payments. Fully private, non-custodial.';
+        $this->method_title       = __('CipherPay (Zcash)', 'cipherpay-woocommerce');
+        $this->method_description = __('Accept shielded Zcash (ZEC) payments. Fully private, non-custodial.', 'cipherpay-woocommerce');
         $this->has_fields         = false;
-        $this->icon               = '';
+        $this->icon               = plugin_dir_url(dirname(__FILE__)) . 'assets/zcash-icon.svg';
 
         $this->init_form_fields();
         $this->init_settings();
 
-        $this->title          = $this->get_option('title', 'Pay with Zcash (ZEC)');
-        $this->description    = $this->get_option('description', 'Private payment powered by CipherPay. Shielded ZEC only.');
+        $this->title          = $this->get_option('title', __('Pay with Zcash (ZEC)', 'cipherpay-woocommerce'));
+        $this->description    = $this->get_option('description', __('Private payment powered by CipherPay. Shielded ZEC only.', 'cipherpay-woocommerce'));
         $this->api_key        = $this->get_option('api_key');
         $this->api_url        = rtrim($this->get_option('api_url', 'https://api.cipherpay.app'), '/');
         $this->webhook_secret = $this->get_option('webhook_secret');
@@ -31,50 +31,51 @@ class WC_Gateway_CipherPay extends WC_Payment_Gateway {
 
         $this->form_fields = [
             'enabled' => [
-                'title'   => 'Enable/Disable',
+                'title'   => __('Enable/Disable', 'cipherpay-woocommerce'),
                 'type'    => 'checkbox',
-                'label'   => 'Enable CipherPay payments',
+                'label'   => __('Enable CipherPay payments', 'cipherpay-woocommerce'),
                 'default' => 'no',
             ],
             'title' => [
-                'title'       => 'Title',
+                'title'       => __('Title', 'cipherpay-woocommerce'),
                 'type'        => 'text',
-                'description' => 'Payment method title shown at checkout.',
-                'default'     => 'Pay with Zcash (ZEC)',
+                'description' => __('Payment method title shown at checkout.', 'cipherpay-woocommerce'),
+                'default'     => __('Pay with Zcash (ZEC)', 'cipherpay-woocommerce'),
                 'desc_tip'    => true,
             ],
             'description' => [
-                'title'       => 'Description',
+                'title'       => __('Description', 'cipherpay-woocommerce'),
                 'type'        => 'textarea',
-                'description' => 'Payment method description shown at checkout.',
-                'default'     => 'Private payment powered by CipherPay. Shielded ZEC only.',
+                'description' => __('Payment method description shown at checkout.', 'cipherpay-woocommerce'),
+                'default'     => __('Private payment powered by CipherPay. Shielded ZEC only.', 'cipherpay-woocommerce'),
                 'desc_tip'    => true,
             ],
             'api_key' => [
-                'title'       => 'API Key',
+                'title'       => __('API Key', 'cipherpay-woocommerce'),
                 'type'        => 'password',
-                'description' => 'Your CipherPay API key (cpay_sk_...).',
+                'description' => __('Your CipherPay API key (cpay_sk_...).', 'cipherpay-woocommerce'),
                 'default'     => '',
             ],
             'api_url' => [
-                'title'       => 'API URL',
+                'title'       => __('API URL', 'cipherpay-woocommerce'),
                 'type'        => 'text',
-                'description' => 'CipherPay API endpoint. Default: https://api.cipherpay.app',
+                'description' => __('CipherPay API endpoint. Default: https://api.cipherpay.app', 'cipherpay-woocommerce'),
                 'default'     => 'https://api.cipherpay.app',
             ],
             'webhook_secret' => [
-                'title'       => 'Webhook Secret',
+                'title'       => __('Webhook Secret', 'cipherpay-woocommerce'),
                 'type'        => 'password',
                 'description' => sprintf(
-                    'Your CipherPay webhook secret (whsec_...). Set this webhook URL in your CipherPay dashboard: <code>%s</code>',
-                    esc_html($webhook_url)
+                    /* translators: %s: webhook URL */
+                    __('Your CipherPay webhook secret (whsec_...). Set this webhook URL in your CipherPay dashboard: %s', 'cipherpay-woocommerce'),
+                    '<code>' . esc_html($webhook_url) . '</code>'
                 ),
                 'default'     => '',
             ],
             'checkout_url' => [
-                'title'       => 'Checkout Page URL',
+                'title'       => __('Checkout Page URL', 'cipherpay-woocommerce'),
                 'type'        => 'text',
-                'description' => 'Base URL of the CipherPay hosted checkout page. Default: https://cipherpay.app',
+                'description' => __('Base URL of the CipherPay hosted checkout page. Default: https://cipherpay.app', 'cipherpay-woocommerce'),
                 'default'     => 'https://cipherpay.app',
             ],
         ];
@@ -84,14 +85,14 @@ class WC_Gateway_CipherPay extends WC_Payment_Gateway {
         if ($this->description) {
             echo '<p>' . wp_kses_post($this->description) . '</p>';
         }
-        echo '<p style="font-size: 12px; color: #666;">You will be redirected to a secure CipherPay checkout page to complete your payment with shielded ZEC.</p>';
+        echo '<p style="font-size: 12px; color: #666;">' . esc_html__('You will be redirected to a secure CipherPay checkout page to complete your payment with shielded ZEC.', 'cipherpay-woocommerce') . '</p>';
     }
 
     public function process_payment($order_id) {
         $order = wc_get_order($order_id);
 
         if (!$order) {
-            wc_add_notice('Order not found.', 'error');
+            wc_add_notice(__('Order not found.', 'cipherpay-woocommerce'), 'error');
             return ['result' => 'failure'];
         }
 
@@ -100,8 +101,12 @@ class WC_Gateway_CipherPay extends WC_Payment_Gateway {
             $items_summary[] = $item->get_name() . ' x' . $item->get_quantity();
         }
 
+        $store_currency = get_woocommerce_currency();
+        $price_field = ($store_currency === 'USD') ? 'price_usd' : 'price_eur';
+
         $payload = [
-            'price_eur'        => floatval($order->get_total()),
+            $price_field       => floatval($order->get_total()),
+            'currency'         => $store_currency,
             'product_name'     => implode(', ', $items_summary),
             'shipping_alias'   => trim($order->get_billing_first_name() . ' ' . $order->get_billing_last_name()),
             'shipping_address' => $this->format_shipping_address($order),
@@ -118,7 +123,11 @@ class WC_Gateway_CipherPay extends WC_Payment_Gateway {
         ]);
 
         if (is_wp_error($response)) {
-            wc_add_notice('CipherPay error: ' . $response->get_error_message(), 'error');
+            wc_add_notice(
+                /* translators: %s: error message */
+                sprintf(__('CipherPay error: %s', 'cipherpay-woocommerce'), esc_html($response->get_error_message())),
+                'error'
+            );
             return ['result' => 'failure'];
         }
 
@@ -126,24 +135,33 @@ class WC_Gateway_CipherPay extends WC_Payment_Gateway {
         $body = json_decode(wp_remote_retrieve_body($response), true);
 
         if ($code < 200 || $code >= 300 || empty($body['invoice_id'])) {
-            $error_msg = $body['error'] ?? 'Failed to create CipherPay invoice';
-            wc_add_notice('CipherPay: ' . $error_msg, 'error');
+            $error_msg = $body['error'] ?? __('Failed to create CipherPay invoice', 'cipherpay-woocommerce');
+            wc_add_notice(
+                /* translators: %s: error message */
+                sprintf(__('CipherPay: %s', 'cipherpay-woocommerce'), esc_html($error_msg)),
+                'error'
+            );
             return ['result' => 'failure'];
         }
 
-        $order->update_meta_data('_cipherpay_invoice_id', sanitize_text_field($body['invoice_id']));
-        $order->update_meta_data('_cipherpay_memo_code', sanitize_text_field($body['memo_code']));
+        $invoice_id = sanitize_text_field($body['invoice_id']);
+        $memo_code = sanitize_text_field($body['memo_code'] ?? '');
+
+        $order->update_meta_data('_cipherpay_invoice_id', $invoice_id);
+        $order->update_meta_data('_cipherpay_memo_code', $memo_code);
         $order->update_meta_data('_cipherpay_price_zec', floatval($body['price_zec']));
         $order->save();
 
         $order->update_status('pending', sprintf(
-            'CipherPay invoice created: %s (memo: %s)',
-            $body['invoice_id'],
-            $body['memo_code']
+            /* translators: 1: invoice ID, 2: memo code */
+            __('CipherPay invoice created: %1$s (memo: %2$s)', 'cipherpay-woocommerce'),
+            esc_html($invoice_id),
+            esc_html($memo_code)
         ));
 
-        $checkout_base = rtrim($this->get_option('checkout_url', 'https://cipherpay.app'), '/');
-        $redirect_url = $checkout_base . '/pay/' . $body['invoice_id'];
+        $checkout_base = rtrim(esc_url_raw($this->get_option('checkout_url', 'https://cipherpay.app')), '/');
+        $return_url = urlencode($order->get_checkout_order_received_url());
+        $redirect_url = $checkout_base . '/pay/' . urlencode($invoice_id) . '?return_url=' . $return_url;
 
         return [
             'result'   => 'success',
