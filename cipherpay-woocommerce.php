@@ -99,7 +99,7 @@ function cipherpay_handle_webhook(WP_REST_Request $request) {
     $order = $orders[0];
 
     switch ($event) {
-        case 'payment.detected':
+        case 'detected':
             $order->add_order_note(
                 sprintf('CipherPay: Payment detected in mempool (txid: %s)',
                     sanitize_text_field($data['txid'] ?? 'unknown'))
@@ -107,12 +107,12 @@ function cipherpay_handle_webhook(WP_REST_Request $request) {
             $order->update_status('on-hold', 'CipherPay payment detected, awaiting confirmation.');
             break;
 
-        case 'payment.confirmed':
+        case 'confirmed':
             $order->payment_complete(sanitize_text_field($data['txid'] ?? ''));
             $order->add_order_note('CipherPay: Payment confirmed on-chain.');
             break;
 
-        case 'payment.expired':
+        case 'expired':
             if (!$order->is_paid()) {
                 $order->update_status('cancelled', 'CipherPay: Payment expired.');
             }

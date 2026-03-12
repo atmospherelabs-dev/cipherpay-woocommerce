@@ -102,10 +102,9 @@ class WC_Gateway_CipherPay extends WC_Payment_Gateway {
         }
 
         $store_currency = get_woocommerce_currency();
-        $price_field = ($store_currency === 'USD') ? 'price_usd' : 'price_eur';
 
         $payload = [
-            $price_field       => floatval($order->get_total()),
+            'amount'           => floatval($order->get_total()),
             'currency'         => $store_currency,
             'product_name'     => implode(', ', $items_summary),
             'shipping_alias'   => trim($order->get_billing_first_name() . ' ' . $order->get_billing_last_name()),
