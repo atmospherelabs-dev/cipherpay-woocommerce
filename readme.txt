@@ -1,11 +1,12 @@
 === CipherPay for WooCommerce ===
 Contributors: cipherpay
-Tags: zcash, zec, payment, privacy, crypto, shielded, woocommerce
+Tags: zcash, payment, privacy, crypto, woocommerce
 Requires at least: 5.0
-Tested up to: 6.5
+Tested up to: 6.9
 Requires PHP: 7.4
 Stable tag: 1.0.0
-License: MIT
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Accept shielded Zcash (ZEC) payments on your WooCommerce store via CipherPay.
 
@@ -29,6 +30,23 @@ CipherPay for WooCommerce enables your store to accept fully shielded Zcash paym
 4. Customer scans the QR code and pays with their Zcash wallet
 5. CipherPay detects and confirms the payment
 6. Webhook fires and the WooCommerce order is marked as paid
+
+**External Service**
+
+This plugin connects to the [CipherPay](https://cipherpay.app) API to create payment invoices
+and receive webhook notifications when payments are confirmed. The following data is sent to
+CipherPay when a customer checks out:
+
+* Order total and currency
+* Customer shipping name and address (used to display on the invoice)
+
+No data is sent unless a customer actively initiates a Zcash payment.
+
+* CipherPay website: [https://cipherpay.app](https://cipherpay.app)
+* Terms of Service: [https://cipherpay.app/terms](https://cipherpay.app/terms)
+* Privacy Policy: [https://cipherpay.app/privacy](https://cipherpay.app/privacy)
+
+If you are self-hosting CipherPay, data is sent to your own instance instead.
 
 == Installation ==
 
@@ -57,7 +75,7 @@ No. CipherPay never holds your funds. Payments go directly to your shielded Zcas
 Yes. Change the API URL and Checkout Page URL to point to your own CipherPay instance.
 
 = What currencies are supported? =
-Invoices are denominated in EUR and automatically converted to ZEC at the current market rate.
+Invoices are denominated in your store's configured currency and automatically converted to ZEC at the current market rate.
 
 == Changelog ==
 

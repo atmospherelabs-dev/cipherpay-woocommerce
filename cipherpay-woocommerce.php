@@ -6,11 +6,12 @@
  * Version: 1.0.0
  * Author: CipherPay
  * Author URI: https://cipherpay.app
- * License: MIT
+ * License: GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: cipherpay-woocommerce
  * Requires PHP: 7.4
  * WC requires at least: 5.0
- * WC tested up to: 9.0
+ * WC tested up to: 10.6
  */
 
 defined('ABSPATH') || exit;

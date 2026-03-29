@@ -1,0 +1,128 @@
+# Copyright (C) 2025 CipherPay
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: CipherPay for WooCommerce 1.0.0\n"
+"Report-Msgid-Bugs-To: https://cipherpay.app\n"
+"POT-Creation-Date: 2025-12-01 00:00+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#. Plugin Name of the plugin
+msgid "CipherPay for WooCommerce"
+msgstr ""
+
+#. Description of the plugin
+msgid "Accept shielded Zcash (ZEC) payments via CipherPay — fully private, non-custodial."
+msgstr ""
+
+#: cipherpay-woocommerce.php:30
+#. translators: %s: plugin name
+msgid "%s requires WooCommerce to be installed and active."
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:12
+msgid "CipherPay (Zcash)"
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:13
+msgid "Accept shielded Zcash (ZEC) payments. Fully private, non-custodial."
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:20
+#: includes/class-wc-gateway-cipherpay.php:43
+msgid "Pay with Zcash (ZEC)"
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:21
+#: includes/class-wc-gateway-cipherpay.php:50
+msgid "Private payment powered by CipherPay. Shielded ZEC only."
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:34
+msgid "Enable/Disable"
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:36
+msgid "Enable CipherPay payments"
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:40
+msgid "Title"
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:42
+msgid "Payment method title shown at checkout."
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:47
+msgid "Description"
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:49
+msgid "Payment method description shown at checkout."
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:54
+msgid "API Key"
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:56
+msgid "Your CipherPay API key (cpay_sk_...)."
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:60
+msgid "API URL"
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:62
+msgid "CipherPay API endpoint. Default: https://api.cipherpay.app"
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:66
+msgid "Webhook Secret"
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:70
+#. translators: %s: webhook URL
+msgid "Your CipherPay webhook secret (whsec_...). Set this webhook URL in your CipherPay dashboard: %s"
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:76
+msgid "Checkout Page URL"
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:78
+msgid "Base URL of the CipherPay hosted checkout page. Default: https://cipherpay.app"
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:88
+msgid "You will be redirected to a secure CipherPay checkout page to complete your payment with shielded ZEC."
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:95
+msgid "Order not found."
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:127
+#. translators: %s: error message
+msgid "CipherPay error: %s"
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:137
+msgid "Failed to create CipherPay invoice"
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:140
+#. translators: %s: error message
+msgid "CipherPay: %s"
+msgstr ""
+
+#: includes/class-wc-gateway-cipherpay.php:156
+#. translators: 1: invoice ID, 2: memo code
+msgid "CipherPay invoice created: %1$s (memo: %2$s)"
+msgstr ""
