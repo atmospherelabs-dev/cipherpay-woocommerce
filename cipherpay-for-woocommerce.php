@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: CipherPay for WooCommerce
- * Plugin URI: https://cipherpay.app
+ * Plugin URI: https://github.com/atmospherelabs-dev/cipherpay-woocommerce
  * Description: Accept shielded Zcash (ZEC) payments via CipherPay — fully private, non-custodial.
  * Version: 1.0.0
  * Author: CipherPay
