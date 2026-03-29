@@ -8,7 +8,7 @@
  * Author URI: https://cipherpay.app
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: cipherpay-woocommerce
+ * Text Domain: cipherpay-for-woocommerce
  * Requires PHP: 7.4
  * WC requires at least: 5.0
  * WC tested up to: 10.6
@@ -19,7 +19,26 @@ defined('ABSPATH') || exit;
 define('CIPHERPAY_WC_VERSION', '1.0.0');
 define('CIPHERPAY_WC_PLUGIN_DIR', plugin_dir_path(__FILE__));
 
+add_action('before_woocommerce_init', function () {
+    if (class_exists(\Automattic\WooCommerce\Utilities\FeaturesUtil::class)) {
+        \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
+    }
+});
+
 add_action('plugins_loaded', 'cipherpay_wc_init');
+
+add_action('woocommerce_blocks_loaded', function () {
+    if (!class_exists('Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType')) {
+        return;
+    }
+    require_once CIPHERPAY_WC_PLUGIN_DIR . 'includes/class-wc-gateway-cipherpay-blocks.php';
+    add_action(
+        'woocommerce_blocks_payment_method_type_registration',
+        function ($registry) {
+            $registry->register(new WC_Gateway_CipherPay_Blocks());
+        }
+    );
+});
 
 function cipherpay_wc_init() {
     if (!class_exists('WC_Payment_Gateway')) {
@@ -27,7 +46,7 @@ function cipherpay_wc_init() {
             echo '<div class="error"><p>' . esc_html(
                 sprintf(
                     /* translators: %s: plugin name */
-                    __('%s requires WooCommerce to be installed and active.', 'cipherpay-woocommerce'),
+                    __('%s requires WooCommerce to be installed and active.', 'cipherpay-for-woocommerce'),
                     'CipherPay'
                 )
             ) . '</p></div>';
@@ -87,6 +106,7 @@ function cipherpay_handle_webhook(WP_REST_Request $request) {
     $invoice_id = sanitize_text_field($data['invoice_id']);
     $event = sanitize_text_field($data['event']);
 
+    // phpcs:ignore WordPress.DB.SlowDBQuery -- required to look up order by invoice ID
     $orders = wc_get_orders([
         'meta_key'   => '_cipherpay_invoice_id',
         'meta_value' => $invoice_id,

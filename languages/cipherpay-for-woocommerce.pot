@@ -20,7 +20,7 @@ msgstr ""
 msgid "Accept shielded Zcash (ZEC) payments via CipherPay — fully private, non-custodial."
 msgstr ""
 
-#: cipherpay-woocommerce.php:30
+#: cipherpay-for-woocommerce.php:30
 #. translators: %s: plugin name
 msgid "%s requires WooCommerce to be installed and active."
 msgstr ""

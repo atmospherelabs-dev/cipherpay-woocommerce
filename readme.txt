@@ -50,7 +50,7 @@ If you are self-hosting CipherPay, data is sent to your own instance instead.
 
 == Installation ==
 
-1. Upload the `cipherpay-woocommerce` folder to `/wp-content/plugins/`
+1. Upload the `cipherpay-for-woocommerce` folder to `/wp-content/plugins/`
 2. Activate the plugin in WordPress
 3. Go to WooCommerce > Settings > Payments > CipherPay
 4. Enter your CipherPay API Key and Webhook Secret
