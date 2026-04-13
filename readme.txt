@@ -1,10 +1,10 @@
 === CipherPay for WooCommerce ===
-Contributors: cipherpay
+Contributors: cipherpay, kenbak
 Tags: zcash, payment, privacy, crypto, woocommerce
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -78,6 +78,10 @@ Yes. Change the API URL and Checkout Page URL to point to your own CipherPay ins
 Invoices are denominated in your store's configured currency and automatically converted to ZEC at the current market rate.
 
 == Changelog ==
+
+= 1.0.1 =
+* Add Requires Plugins header for WooCommerce 6.5+ dependency flow
+* readme: contributors list for WordPress.org directory
 
 = 1.0.0 =
 * Initial release
