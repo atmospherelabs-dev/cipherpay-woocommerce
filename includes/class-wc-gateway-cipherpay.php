@@ -18,7 +18,7 @@ class WC_Gateway_CipherPay extends WC_Payment_Gateway {
         $this->init_settings();
 
         $this->title          = $this->get_option('title', __('Pay with Zcash (ZEC)', 'cipherpay-for-woocommerce'));
-        $this->description    = $this->get_option('description', __('Private payment powered by CipherPay. Shielded ZEC only.', 'cipherpay-for-woocommerce'));
+        $this->description    = $this->get_option('description', __('Pay privately with shielded Zcash (ZEC).', 'cipherpay-for-woocommerce'));
         $this->api_key        = $this->get_option('api_key');
         $this->api_url        = rtrim($this->get_option('api_url', 'https://api.cipherpay.app'), '/');
         $this->webhook_secret = $this->get_option('webhook_secret');
@@ -47,7 +47,7 @@ class WC_Gateway_CipherPay extends WC_Payment_Gateway {
                 'title'       => __('Description', 'cipherpay-for-woocommerce'),
                 'type'        => 'textarea',
                 'description' => __('Payment method description shown at checkout.', 'cipherpay-for-woocommerce'),
-                'default'     => __('Private payment powered by CipherPay. Shielded ZEC only.', 'cipherpay-for-woocommerce'),
+                'default'     => __('Pay privately with shielded Zcash (ZEC).', 'cipherpay-for-woocommerce'),
                 'desc_tip'    => true,
             ],
             'api_key' => [

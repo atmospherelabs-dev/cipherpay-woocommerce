@@ -29,7 +29,7 @@ final class WC_Gateway_CipherPay_Blocks extends AbstractPaymentMethodType {
     public function get_payment_method_data() {
         return [
             'title'       => $this->get_setting('title', __('Pay with Zcash (ZEC)', 'cipherpay-for-woocommerce')),
-            'description' => $this->get_setting('description', __('Private payment powered by CipherPay. Shielded ZEC only.', 'cipherpay-for-woocommerce')),
+            'description' => $this->get_setting('description', __('Pay privately with shielded Zcash (ZEC).', 'cipherpay-for-woocommerce')),
             'icon'        => plugin_dir_url(dirname(__FILE__)) . 'assets/zcash-icon.png',
             'supports'    => ['products'],
         ];
