@@ -3,7 +3,7 @@
  * Plugin Name: CipherPay for WooCommerce
  * Plugin URI: https://github.com/atmospherelabs-dev/cipherpay-woocommerce
  * Description: Accept shielded Zcash (ZEC) payments via CipherPay — fully private, non-custodial.
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: CipherPay
  * Author URI: https://cipherpay.app
  * License: GPLv2 or later
@@ -17,7 +17,7 @@
 
 defined('ABSPATH') || exit;
 
-define('CIPHERPAY_WC_VERSION', '1.0.1');
+define('CIPHERPAY_WC_VERSION', '1.0.2');
 define('CIPHERPAY_WC_PLUGIN_DIR', plugin_dir_path(__FILE__));
 
 add_action('before_woocommerce_init', function () {
@@ -73,7 +73,7 @@ add_action('rest_api_init', function () {
 
 function cipherpay_handle_webhook(WP_REST_Request $request) {
     $settings = get_option('woocommerce_cipherpay_settings', []);
-    $webhook_secret = $settings['webhook_secret'] ?? '';
+    $webhook_secret = preg_replace('/[\s\x{2028}\x{2029}]+/u', '', $settings['webhook_secret'] ?? '');
 
     if (empty($webhook_secret)) {
         return new WP_REST_Response(['error' => 'Webhook secret not configured'], 400);
@@ -126,7 +126,10 @@ function cipherpay_handle_webhook(WP_REST_Request $request) {
                 sprintf('CipherPay: Payment detected in mempool (txid: %s)',
                     sanitize_text_field($data['txid'] ?? 'unknown'))
             );
-            $order->update_status('on-hold', 'CipherPay payment detected, awaiting confirmation.');
+            // Guard against out-of-order delivery: never downgrade a paid order.
+            if (!$order->is_paid()) {
+                $order->update_status('on-hold', 'CipherPay payment detected, awaiting confirmation.');
+            }
             break;
 
         case 'confirmed':
