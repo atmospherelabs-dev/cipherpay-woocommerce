@@ -107,9 +107,6 @@ class WC_Gateway_CipherPay extends WC_Payment_Gateway {
             'amount'           => floatval($order->get_total()),
             'currency'         => $store_currency,
             'product_name'     => implode(', ', $items_summary),
-            'shipping_alias'   => trim($order->get_billing_first_name() . ' ' . $order->get_billing_last_name()),
-            'shipping_address' => $this->format_shipping_address($order),
-            'shipping_region'  => $order->get_shipping_country() ?: $order->get_billing_country(),
         ];
 
         $response = wp_remote_post($this->api_url . '/api/invoices', [
@@ -168,16 +165,5 @@ class WC_Gateway_CipherPay extends WC_Payment_Gateway {
         ];
     }
 
-    private function format_shipping_address($order) {
-        $parts = array_filter([
-            $order->get_shipping_address_1() ?: $order->get_billing_address_1(),
-            $order->get_shipping_address_2() ?: $order->get_billing_address_2(),
-            $order->get_shipping_city() ?: $order->get_billing_city(),
-            $order->get_shipping_state() ?: $order->get_billing_state(),
-            $order->get_shipping_postcode() ?: $order->get_billing_postcode(),
-            WC()->countries->countries[$order->get_shipping_country() ?: $order->get_billing_country()] ?? '',
-        ]);
 
-        return implode(', ', $parts);
-    }
 }

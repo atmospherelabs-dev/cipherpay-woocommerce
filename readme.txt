@@ -4,7 +4,7 @@ Tags: zcash, payment, privacy, crypto, woocommerce
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,7 +79,7 @@ Invoices are denominated in your store's configured currency and automatically c
 
 == Changelog ==
 
-= 1.0.2 =
+= 1.0.3 =
 * Fix: sanitize webhook secret and API key to strip whitespace and invisible characters from copy-paste
 * Fix: resolves webhook signature verification failures (HTTP 401) caused by trailing whitespace in stored secrets
 * Fix: out-of-order webhook delivery no longer downgrades a paid order back to on-hold
