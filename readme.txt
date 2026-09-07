@@ -80,6 +80,10 @@ Invoices are denominated in your store's configured currency and automatically c
 == Changelog ==
 
 = 1.0.3 =
+* Privacy: stop sending buyer shipping identity and address fields to CipherPay
+* Add regression checks and a repeatable distribution build
+
+= 1.0.2 =
 * Fix: sanitize webhook secret and API key to strip whitespace and invisible characters from copy-paste
 * Fix: resolves webhook signature verification failures (HTTP 401) caused by trailing whitespace in stored secrets
 * Fix: out-of-order webhook delivery no longer downgrades a paid order back to on-hold
