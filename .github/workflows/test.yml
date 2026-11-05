@@ -13,3 +13,4 @@ jobs:
           php-version: '${{ matrix.php }}'
       - run: find . -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l
       - run: php tests/privacy.php
+      - run: php tests/checkout-token.php

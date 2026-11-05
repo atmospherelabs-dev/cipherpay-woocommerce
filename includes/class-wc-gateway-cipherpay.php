@@ -158,6 +158,11 @@ class WC_Gateway_CipherPay extends WC_Payment_Gateway {
         $checkout_base = rtrim(esc_url_raw($this->get_option('checkout_url', 'https://cipherpay.app')), '/');
         $return_url = urlencode($order->get_checkout_order_received_url());
         $redirect_url = $checkout_base . '/pay/' . urlencode($invoice_id) . '?return_url=' . $return_url;
+        // Preserve the private checkout capability when using a custom checkout domain.
+        if (isset($body['checkout_token']) && is_string($body['checkout_token'])
+            && preg_match('/\A[a-f0-9]{64}\z/', $body['checkout_token'])) {
+            $redirect_url .= '#checkout=' . $body['checkout_token'];
+        }
 
         return [
             'result'   => 'success',

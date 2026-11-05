@@ -82,6 +82,7 @@ Invoices are denominated in your store's configured currency and automatically c
 = 1.0.3 =
 * Privacy: stop sending buyer shipping identity and address fields to CipherPay
 * Add regression checks and a repeatable distribution build
+* Fix: pass the invoice checkout token so buyers can pay from other chains
 
 = 1.0.2 =
 * Fix: sanitize webhook secret and API key to strip whitespace and invisible characters from copy-paste
