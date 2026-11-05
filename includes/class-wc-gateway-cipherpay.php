@@ -107,9 +107,6 @@ class WC_Gateway_CipherPay extends WC_Payment_Gateway {
             'amount'           => floatval($order->get_total()),
             'currency'         => $store_currency,
             'product_name'     => implode(', ', $items_summary),
-            'shipping_alias'   => trim($order->get_billing_first_name() . ' ' . $order->get_billing_last_name()),
-            'shipping_address' => $this->format_shipping_address($order),
-            'shipping_region'  => $order->get_shipping_country() ?: $order->get_billing_country(),
         ];
 
         $response = wp_remote_post($this->api_url . '/api/invoices', [
@@ -161,6 +158,11 @@ class WC_Gateway_CipherPay extends WC_Payment_Gateway {
         $checkout_base = rtrim(esc_url_raw($this->get_option('checkout_url', 'https://cipherpay.app')), '/');
         $return_url = urlencode($order->get_checkout_order_received_url());
         $redirect_url = $checkout_base . '/pay/' . urlencode($invoice_id) . '?return_url=' . $return_url;
+        // Preserve the private checkout capability when using a custom checkout domain.
+        if (isset($body['checkout_token']) && is_string($body['checkout_token'])
+            && preg_match('/\A[a-f0-9]{64}\z/', $body['checkout_token'])) {
+            $redirect_url .= '#checkout=' . $body['checkout_token'];
+        }
 
         return [
             'result'   => 'success',
@@ -168,16 +170,5 @@ class WC_Gateway_CipherPay extends WC_Payment_Gateway {
         ];
     }
 
-    private function format_shipping_address($order) {
-        $parts = array_filter([
-            $order->get_shipping_address_1() ?: $order->get_billing_address_1(),
-            $order->get_shipping_address_2() ?: $order->get_billing_address_2(),
-            $order->get_shipping_city() ?: $order->get_billing_city(),
-            $order->get_shipping_state() ?: $order->get_billing_state(),
-            $order->get_shipping_postcode() ?: $order->get_billing_postcode(),
-            WC()->countries->countries[$order->get_shipping_country() ?: $order->get_billing_country()] ?? '',
-        ]);
 
-        return implode(', ', $parts);
-    }
 }

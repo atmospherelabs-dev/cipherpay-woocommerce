@@ -4,7 +4,7 @@ Tags: zcash, payment, privacy, crypto, woocommerce
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -78,6 +78,11 @@ Yes. Change the API URL and Checkout Page URL to point to your own CipherPay ins
 Invoices are denominated in your store's configured currency and automatically converted to ZEC at the current market rate.
 
 == Changelog ==
+
+= 1.0.3 =
+* Privacy: stop sending buyer shipping identity and address fields to CipherPay
+* Add regression checks and a repeatable distribution build
+* Fix: pass the invoice checkout token so buyers can pay from other chains
 
 = 1.0.2 =
 * Fix: sanitize webhook secret and API key to strip whitespace and invisible characters from copy-paste
